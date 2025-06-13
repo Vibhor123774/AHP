@@ -1,0 +1,57 @@
+# Disable directory indexes and MultiViews
+Options -Indexes -MultiViews
+
+# Prevent mod_dir appending a slash to directory requests
+DirectorySlash Off
+
+RewriteEngine On
+
+# Redirect indexed PHP urls to their corresponding new URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)\medical-assignment-help.php$ /subjects/medical-assignment-help [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)\career.php$ /careers [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)\about.php$ /about [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)\psychology-assignment-help.php$ /subjects/psychology-assignment-help [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)\finance-assignment-help.php$ /subjects/finance-assignment-help [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)\economics-assignment-help.php$ /subjects/economics-assignment-help [R=301,L]
+
+# Redirection of old services url to new
+Redirect 301 /services/dissertation-writing-service /services/dissertation-writing
+Redirect 301 /services/programming-assignment-help /services/programming-assignment-help-service
+Redirect 301 /services/research-paper-writing-service /services/research-paper-writing
+Redirect 301 /services/thesis-writing-service /services/thesis-writing
+
+# # Redirect any php url to home
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.+)\.php$ / [R=301,L]
+
+# Prevent any further processing if the URL already ends with a file extension
+RewriteRule \.\w{2,4}$ - [L]
+
+# Redirect any requests to remove a trailing slash
+RewriteRule (.*)/$ /$1 [R=301,L]
+
+# Rewrite /foo to /foo.html if it exists
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule (.*) $1.html [L]
+
+# Otherwise, rewrite /foo to /foo/index.html if it exists
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+RewriteRule (.*) $1/index.html [L]
