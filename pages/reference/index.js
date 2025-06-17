@@ -69,7 +69,8 @@ export default function EnhancedReferenceGenerator() {
     { id: 'journal', name: 'Journal', icon: '📄' },
     { id: 'video', name: 'Video', icon: '🎥' }
   ];
-
+    const baseUrl = 'https://assignmentshelpprovider.com'
+ const canonicalUrl = `${baseUrl}/reference`
   // Helper: format a single author name as "Last, F."
   const formatAuthor = (authorName) => {
     if (!authorName) return '';
@@ -675,6 +676,7 @@ ${referenceText}`;
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       <Navbar />
       <Head>
+        <link rel="canonical" href={canonicalUrl} />
         <title>Reference Generator</title>
         <meta name="reference_generator" content={'Reference Generator'} />
       </Head>

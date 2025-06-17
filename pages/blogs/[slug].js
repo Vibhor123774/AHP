@@ -18,6 +18,9 @@ export default function BlogPost() {
   const [tocOpen, setTocOpen] = useState(true)
   const contentRef = useRef(null)
 
+  // Base URL for your website
+  const baseUrl = 'https://assignmentshelpprovider.com'
+
   // Fetch post by slug
   useEffect(() => {
     if (!slug) return
@@ -120,6 +123,44 @@ export default function BlogPost() {
     window.scrollTo({ top: offset, behavior: 'smooth' })
   }
 
+  // Generate structured data for SEO
+  const generateStructuredData = (post) => {
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.meta_title || post.title,
+      "description": post.meta_description || post.excerpt,
+      "image": post.cover_image_url ? `${baseUrl}${post.cover_image_url}` : `${baseUrl}/default-cover.jpg`,
+      "author": {
+        "@type": "Organization",
+        "name": "TEAM AHP",
+        "url": baseUrl
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Assignments Help Provider",
+        "url": baseUrl,
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${baseUrl}/logo.png`
+        }
+      },
+      "datePublished": post.created_at,
+      "dateModified": post.updated_at || post.created_at,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `${baseUrl}/blogs/${post.slug}`
+      },
+      "url": `${baseUrl}/blogs/${post.slug}`,
+      "wordCount": post.content ? post.content.replace(/<[^>]*>/g, '').split(' ').length : 0,
+      "timeRequired": `PT${post.reading_time || 7}M`,
+      "keywords": post.tags ? post.tags.join(', ') : '',
+      "articleSection": "Education",
+      "inLanguage": "en-US"
+    }
+    return JSON.stringify(structuredData)
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
@@ -141,7 +182,7 @@ export default function BlogPost() {
             Post not found
           </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            The blog post doesn’t exist.
+            The blog post doesn't exist.
           </p>
           <Link
             href="/blogs"
@@ -154,11 +195,75 @@ export default function BlogPost() {
     )
   }
 
+  // SEO data with fallbacks
+  const seoTitle = post.meta_title || post.title || 'Blog Post'
+  const seoDescription = post.meta_description || post.excerpt || 'Read this informative blog post from Assignments Help Provider.'
+  const seoImage = post.cover_image_url ? `${baseUrl}${post.cover_image_url}` : `${baseUrl}/default-cover.jpg`
+  const canonicalUrl = `${baseUrl}/blogs/${post.slug}`
+  
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <Head>
-        <title>{post.title} | Blog</title>
-        <meta name="description" content={post.excerpt || 'Blog post'} />
+        {/* Primary Meta Tags */}
+        <title>{seoTitle}</title>
+        <meta name="title" content={seoTitle} />
+        <meta name="description" content={seoDescription} />
+        <meta name="keywords" content={post.tags ? post.tags.join(', ') : 'education, assignments, help'} />
+        <meta name="author" content="TEAM AHP" />
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="English" />
+        <meta name="revisit-after" content="7 days" />
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href={canonicalUrl} />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:image" content={seoImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Assignments Help Provider" />
+        <meta property="article:published_time" content={post.created_at} />
+        <meta property="article:modified_time" content={post.updated_at || post.created_at} />
+        <meta property="article:author" content="TEAM AHP" />
+        <meta property="article:section" content="Education" />
+        {post.tags && post.tags.map((tag, index) => (
+          <meta key={index} property="article:tag" content={tag} />
+        ))}
+        
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalUrl} />
+        <meta property="twitter:title" content={seoTitle} />
+        <meta property="twitter:description" content={seoDescription} />
+        <meta property="twitter:image" content={seoImage} />
+        <meta name="twitter:creator" content="@AssignmentsHelpProvider" />
+        
+        {/* Additional SEO Meta Tags */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: generateStructuredData(post)
+          }}
+        />
+        
+        {/* Preload critical resources */}
+        <link rel="preload" href={seoImage} as="image" />
+        
+        {/* Favicon and App Icons */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        
         <style jsx global>{`
           /* Remove underline on heading links */
           .heading-link {
@@ -207,7 +312,7 @@ export default function BlogPost() {
               <span>•</span>
               <span className="flex items-center">
                 <Calendar className="h-4 w-4 mr-1" />
-                {`${post.reading_time} MIN READ`}
+                {`${post.reading_time || 7} MIN READ`}
               </span>
             </motion.div>
             <motion.div
@@ -221,8 +326,9 @@ export default function BlogPost() {
             >
               <img
                 src={post.cover_image_url || '/default-cover.jpg'}
-                alt={post.title}
+                alt={seoTitle}
                 className="w-full h-full object-cover"
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             </motion.div>
@@ -327,6 +433,7 @@ export default function BlogPost() {
                       src={rp.cover}
                       alt={rp.title}
                       className="w-full h-32 object-cover"
+                      loading="lazy"
                     />
                     <div className="p-4">
                       <h4 className="font-medium text-gray-900 dark:text-white group-hover:text-violet-600 line-clamp-2">
