@@ -459,9 +459,9 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-blue-50 dark:bg-slate-800 flex items-center justify-center px-4">
         <Head>
-        <title>Admin Dashboard</title>
-        <meta name="adminDashboard" content={'Blog post'} />
-      </Head>
+          <title>Admin Dashboard</title>
+          <meta name="adminDashboard" content={'Blog post'} />
+        </Head>
         <div className="w-full max-w-md bg-white dark:bg-slate-700 rounded-lg p-6 shadow-md">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">
             Enter Passcode
@@ -484,7 +484,6 @@ export default function AdminPage() {
       </div>
     )
   }
-
 
   const renderBlogList = () => (
     <div className="space-y-6">

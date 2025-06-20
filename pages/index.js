@@ -11,7 +11,7 @@ import { Faqs } from '../components/Faqs'
 import { faqHomeData } from '../components/data'
 import { RatingBanner } from '../components/RatingsBanner'
 import { homeJsonLd, getReviewJsonLd } from '../utilities/jsonLdCreator'
-import { Analytics } from "@vercel/analytics/next"
+
 // import Script from 'next/script'
 
 const Home = () => {
@@ -77,7 +77,7 @@ const Home = () => {
       <SectionTitle title="FAQs"></SectionTitle>
       <Faqs data={faqHomeData} />
       <hr className="mt-8 mx-6" color="black" />
-      <Analytics  />
+
       <Footer />
       {/* <PopupWidget /> */}
     </>

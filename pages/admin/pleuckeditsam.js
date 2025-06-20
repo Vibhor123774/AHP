@@ -191,7 +191,7 @@ const Editor = () => {
             {title}
           </h1>
           <div className="flex">
-          <Typography variant="paragraph" color="black">
+            <Typography variant="paragraph" color="black">
               Words:
             </Typography>
             <Typography variant="h6" color="black" className="px-2">

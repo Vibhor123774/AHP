@@ -173,7 +173,8 @@ const economicsData = {
     {
       title:
         'Price Elasticity of Demand (PED) and Price Elasticity of Supply (PES)',
-      pageUrl: '/samples/price-elasticity-of-demand-and-price-elasticity-of-supply'
+      pageUrl:
+        '/samples/price-elasticity-of-demand-and-price-elasticity-of-supply'
     },
     {
       title: 'Gross Domestic Product',
@@ -368,8 +369,7 @@ const medicalData = {
   ],
   samples: [
     {
-      title:
-        'Coordination and Response: The Wonders of the Nervous System',
+      title: 'Coordination and Response: The Wonders of the Nervous System',
       pageUrl: '/samples/medical-sample-1'
     },
     {
@@ -566,7 +566,8 @@ const nursingData = {
   ],
   samples: [
     {
-      title:'The Significance of Interdisciplinary Collaboration in Attaining Favourable Patient Outcomes',
+      title:
+        'The Significance of Interdisciplinary Collaboration in Attaining Favourable Patient Outcomes',
       pageUrl: '/samples/nursing-sample-1'
     },
     {
@@ -949,13 +950,11 @@ const financeData = {
   ],
   samples: [
     {
-      title:
-        'Sensitive Analysis and Scenario Analysis',
+      title: 'Sensitive Analysis and Scenario Analysis',
       pageUrl: '/samples/finance-sample-1'
     },
     {
-      title:
-        'Enterprise Value vs Equity Value',
+      title: 'Enterprise Value vs Equity Value',
       pageUrl: '/samples/finance-sample-2'
     },
     // {

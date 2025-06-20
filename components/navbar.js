@@ -8,9 +8,13 @@ import { useEffect } from 'react'
 
 const Navbar = () => {
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.Tawk_API && typeof window.Tawk_API.onLoaded === 'function') {
+    if (
+      typeof window !== 'undefined' &&
+      window.Tawk_API &&
+      typeof window.Tawk_API.onLoaded === 'function'
+    ) {
       window.Tawk_API.onLoaded = () => {
-        console.log("Tawk script loaded.")
+        console.log('Tawk script loaded.')
       }
     }
   }, [])
@@ -22,7 +26,7 @@ const Navbar = () => {
         strategy="lazyOnload"
         src="https://embed.tawk.to/627672e97b967b11798e3885/1g2fb1olq"
       ></Script>
-      
+
       {/* Clean White Navigation Bar */}
       <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-lg">
         <nav className="container relative flex flex-wrap items-center justify-between px-4 py-3 mx-auto max-w-7xl lg:justify-between">
@@ -113,7 +117,7 @@ const Navbar = () => {
                           <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-300"></span>
                         </span>
                       </Link>
-                      
+
                       {/* Mobile CTA Button */}
                       <div className="pt-3">
                         <Link
@@ -122,8 +126,18 @@ const Navbar = () => {
                         >
                           <span className="relative z-10 flex items-center">
                             Contact Us
-                            <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            <svg
+                              className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                              />
                             </svg>
                           </span>
                         </Link>
@@ -199,8 +213,18 @@ const Navbar = () => {
             >
               <span className="relative z-10 flex items-center">
                 Contact Us
-                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <svg
+                  className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
                 </svg>
               </span>
             </Link>
@@ -209,19 +233,41 @@ const Navbar = () => {
 
         {/* SEO Preload Links (Hidden) */}
         <div className="sr-only">
-          <a href="/services/dissertation-writing-service">Dissertation Writing Service</a>
-          <a href="/services/research-paper-writing-service">Research Paper Writing Service</a>
+          <a href="/services/dissertation-writing-service">
+            Dissertation Writing Service
+          </a>
+          <a href="/services/research-paper-writing-service">
+            Research Paper Writing Service
+          </a>
           <a href="/services/thesis-writing-service">Thesis Writing Service</a>
-          <a href="/services/programming-assignment-help">Programming Assignment Help</a>
-          <a href="/subjects/accounting-assignment-help">Accounting Assignment Help</a>
-          <a href="/subjects/finance-assignment-help">Finance Assignment Help</a>
-          <a href="/subjects/economics-assignment-help">Economics Assignment Help</a>
-          <a href="/subjects/medical-assignment-help">Medical Assignment Help</a>
-          <a href="/subjects/nursing-assignment-help">Nursing Assignment Help</a>
-          <a href="/subjects/psychology-assignment-help">Psychology Assignment Help</a>
-          <a href="/subjects/engineering-assignment-help">Engineering Assignment Help</a>
+          <a href="/services/programming-assignment-help">
+            Programming Assignment Help
+          </a>
+          <a href="/subjects/accounting-assignment-help">
+            Accounting Assignment Help
+          </a>
+          <a href="/subjects/finance-assignment-help">
+            Finance Assignment Help
+          </a>
+          <a href="/subjects/economics-assignment-help">
+            Economics Assignment Help
+          </a>
+          <a href="/subjects/medical-assignment-help">
+            Medical Assignment Help
+          </a>
+          <a href="/subjects/nursing-assignment-help">
+            Nursing Assignment Help
+          </a>
+          <a href="/subjects/psychology-assignment-help">
+            Psychology Assignment Help
+          </a>
+          <a href="/subjects/engineering-assignment-help">
+            Engineering Assignment Help
+          </a>
           <a href="/subjects/law-assignment-help">Law Assignment Help</a>
-          <a href="/subjects/management-assignment-help">Management Assignment Help</a>
+          <a href="/subjects/management-assignment-help">
+            Management Assignment Help
+          </a>
         </div>
       </div>
     </>

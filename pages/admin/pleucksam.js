@@ -44,7 +44,7 @@ const Editor = () => {
     formData.append('metaTitle', metaTitle)
     formData.append('metaDescription', metaDescription)
     formData.append('content', content)
-    formData.append('wordCount',wordCount)
+    formData.append('wordCount', wordCount)
 
     const response = await fetch('https://ahp-apis.onrender.com/newsample', {
       method: 'POST',
@@ -195,7 +195,7 @@ const Editor = () => {
             {title}
           </h1>
           <div className="flex">
-          <Typography variant="paragraph" color="black">
+            <Typography variant="paragraph" color="black">
               Words:
             </Typography>
             <Typography variant="h6" color="black" className="px-2">

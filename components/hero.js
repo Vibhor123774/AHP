@@ -13,7 +13,7 @@ const Hero = () => {
               Assignments Help Provider
             </h1>
             <h2 className="py-4 text-xl font-bold leading-snug tracking-tight text-gray-600 lg:px-8 lg:text-xl lg:leading-tight">
-            Crack Academic Success with Our Expert Assignment Assistance!
+              Crack Academic Success with Our Expert Assignment Assistance!
             </h2>
             <Button
               onClick={handleScroll}

@@ -191,61 +191,61 @@ export default function Footer() {
             {/* Bottom Section */}
             <div className="flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
               {/* Secure Payment Section */}
-<div className="flex flex-col items-center lg:items-end">
-  <h4 className="text-base font-medium text-gray-900 mb-3 text-center lg:text-right">
-    100% Secure Payment
-  </h4>
-  <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
-    {/* Payment Icons */}
-    <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-4 bg-gray-50 rounded-lg px-3 sm:px-5 py-4 border border-gray-200 max-w-full">
-      {/* Razorpay */}
-      <div className="w-12 h-8 sm:w-16 sm:h-10 bg-white rounded-md flex items-center justify-center border border-gray-200 shadow-sm">
-        <img
-          src="/razorpay-seeklogo.svg"
-          alt="Razorpay"
-          className="h-4 sm:h-6 max-w-full object-contain"
-        />
-      </div>
+              <div className="flex flex-col items-center lg:items-end">
+                <h4 className="text-base font-medium text-gray-900 mb-3 text-center lg:text-right">
+                  100% Secure Payment
+                </h4>
+                <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                  {/* Payment Icons */}
+                  <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-4 bg-gray-50 rounded-lg px-3 sm:px-5 py-4 border border-gray-200 max-w-full">
+                    {/* Razorpay */}
+                    <div className="w-12 h-8 sm:w-16 sm:h-10 bg-white rounded-md flex items-center justify-center border border-gray-200 shadow-sm">
+                      <img
+                        src="/razorpay-seeklogo.svg"
+                        alt="Razorpay"
+                        className="h-4 sm:h-6 max-w-full object-contain"
+                      />
+                    </div>
 
-      {/* UPI */}
-      <div className="w-12 h-8 sm:w-16 sm:h-10 bg-white rounded-md flex items-center justify-center border border-gray-200 shadow-sm">
-        <img
-          src="/upi-id.svg"
-          alt="UPI"
-          className="h-4 sm:h-6 max-w-full object-contain"
-        />
-      </div>
+                    {/* UPI */}
+                    <div className="w-12 h-8 sm:w-16 sm:h-10 bg-white rounded-md flex items-center justify-center border border-gray-200 shadow-sm">
+                      <img
+                        src="/upi-id.svg"
+                        alt="UPI"
+                        className="h-4 sm:h-6 max-w-full object-contain"
+                      />
+                    </div>
 
-      {/* Visa */}
-      <div className="w-12 h-8 sm:w-16 sm:h-10 bg-white rounded-md flex items-center justify-center border border-gray-200 shadow-sm">
-        <img
-          src="/visa.svg"
-          alt="Visa"
-          className="h-4 sm:h-6 max-w-full object-contain"
-        />
-      </div>
+                    {/* Visa */}
+                    <div className="w-12 h-8 sm:w-16 sm:h-10 bg-white rounded-md flex items-center justify-center border border-gray-200 shadow-sm">
+                      <img
+                        src="/visa.svg"
+                        alt="Visa"
+                        className="h-4 sm:h-6 max-w-full object-contain"
+                      />
+                    </div>
 
-      {/* Mastercard */}
-      <div className="w-12 h-8 sm:w-16 sm:h-10 bg-white rounded-md flex items-center justify-center border border-gray-200 shadow-sm">
-        <img
-          src="/mastercard.svg"
-          alt="Mastercard"
-          className="h-4 sm:h-6 max-w-full object-contain"
-        />
-      </div>
-    </div>
+                    {/* Mastercard */}
+                    <div className="w-12 h-8 sm:w-16 sm:h-10 bg-white rounded-md flex items-center justify-center border border-gray-200 shadow-sm">
+                      <img
+                        src="/mastercard.svg"
+                        alt="Mastercard"
+                        className="h-4 sm:h-6 max-w-full object-contain"
+                      />
+                    </div>
+                  </div>
 
-    {/* Security Badges */}
-    <div className="flex items-center space-x-2">
-      <div className="bg-green-600 text-white px-2 sm:px-2.5 py-1 rounded-md text-xs font-medium">
-        DMCA
-      </div>
-      <div className="bg-gray-700 text-white px-2 sm:px-2.5 py-1 rounded-md text-xs font-medium">
-        PROTECTED
-      </div>
-    </div>
-  </div>
-</div>
+                  {/* Security Badges */}
+                  <div className="flex items-center space-x-2">
+                    <div className="bg-green-600 text-white px-2 sm:px-2.5 py-1 rounded-md text-xs font-medium">
+                      DMCA
+                    </div>
+                    <div className="bg-gray-700 text-white px-2 sm:px-2.5 py-1 rounded-md text-xs font-medium">
+                      PROTECTED
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               {/* Social Icons Section */}
               <div className="flex flex-col items-center lg:items-start">

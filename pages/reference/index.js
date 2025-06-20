@@ -1,12 +1,10 @@
-
-
-import { useState } from 'react';
-import Head from 'next/head';
-import Navbar from '../../components/navbar';
-import Footer from '../../components/footer';
+import { useState } from 'react'
+import Head from 'next/head'
+import Navbar from '../../components/navbar'
+import Footer from '../../components/footer'
 
 export default function EnhancedReferenceGenerator() {
-  const [sourceType, setSourceType] = useState('website');
+  const [sourceType, setSourceType] = useState('website')
   const [formData, setFormData] = useState({
     // Support multiple authors
     authors: [''],
@@ -39,11 +37,11 @@ export default function EnhancedReferenceGenerator() {
     duration: '',
     uploader: '',
     urlVideo: ''
-  });
+  })
 
-  const [citation, setCitation] = useState('');
-  const [reference, setReference] = useState('');
-  const [copySuccess, setCopySuccess] = useState(false);
+  const [citation, setCitation] = useState('')
+  const [reference, setReference] = useState('')
+  const [copySuccess, setCopySuccess] = useState(false)
 
   const styles = [
     'AMA',
@@ -61,116 +59,116 @@ export default function EnhancedReferenceGenerator() {
     'MLA 9',
     'OSCOLA',
     'Vancouver'
-  ];
+  ]
 
   const sourceTypes = [
     { id: 'website', name: 'Website', icon: '🌐' },
     { id: 'book', name: 'Book', icon: '📚' },
     { id: 'journal', name: 'Journal', icon: '📄' },
     { id: 'video', name: 'Video', icon: '🎥' }
-  ];
-    const baseUrl = 'https://assignmentshelpprovider.com'
- const canonicalUrl = `${baseUrl}/reference`
+  ]
+  const baseUrl = 'https://assignmentshelpprovider.com'
+  const canonicalUrl = `${baseUrl}/reference`
   // Helper: format a single author name as "Last, F."
   const formatAuthor = (authorName) => {
-    if (!authorName) return '';
-    const parts = authorName.trim().split(' ');
+    if (!authorName) return ''
+    const parts = authorName.trim().split(' ')
     if (parts.length >= 2) {
-      const lastName = parts[parts.length - 1];
-      const firstName = parts.slice(0, -1).join(' ');
-      return `${lastName}, ${firstName.charAt(0)}.`;
+      const lastName = parts[parts.length - 1]
+      const firstName = parts.slice(0, -1).join(' ')
+      return `${lastName}, ${firstName.charAt(0)}.`
     }
-    return authorName.trim();
-  };
+    return authorName.trim()
+  }
 
   // Handle change for non-author fields
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
       [name]: value
-    }));
-  };
+    }))
+  }
 
   // Handle change for a specific author index
   const handleAuthorChange = (index, value) => {
-    const newAuthors = [...formData.authors];
-    newAuthors[index] = value;
+    const newAuthors = [...formData.authors]
+    newAuthors[index] = value
     setFormData((prev) => ({
       ...prev,
       authors: newAuthors
-    }));
-  };
+    }))
+  }
 
   // Add a new empty author input only if the last one is non-empty
   const addAuthor = () => {
-    const lastAuthor = formData.authors[formData.authors.length - 1].trim();
-    if (lastAuthor === '') return; // Do not add if last is empty
+    const lastAuthor = formData.authors[formData.authors.length - 1].trim()
+    if (lastAuthor === '') return // Do not add if last is empty
     setFormData((prev) => ({
       ...prev,
       authors: [...prev.authors, '']
-    }));
-  };
+    }))
+  }
 
   // Remove an author input at given index (only if more than one remains)
   const removeAuthor = (index) => {
-    if (formData.authors.length <= 1) return;
-    const newAuthors = formData.authors.filter((_, i) => i !== index);
+    if (formData.authors.length <= 1) return
+    const newAuthors = formData.authors.filter((_, i) => i !== index)
     setFormData((prev) => ({
       ...prev,
       authors: newAuthors
-    }));
-  };
+    }))
+  }
 
   // Validate and generate citation + reference
   const generateCitation = () => {
-    const { authors, title, year, style } = formData;
+    const { authors, title, year, style } = formData
 
     // Trim all author entries and remove empties
-    const trimmedAuthors = authors.map((a) => a.trim()).filter((a) => a);
+    const trimmedAuthors = authors.map((a) => a.trim()).filter((a) => a)
     if (trimmedAuthors.length === 0 || !title.trim() || !year.trim()) {
-      setCitation('Please fill in at least one Author, Title, and Year.');
-      setReference('');
-      return;
+      setCitation('Please fill in at least one Author, Title, and Year.')
+      setReference('')
+      return
     }
 
     // Format each author
-    const formattedAuthors = trimmedAuthors.map((a) => formatAuthor(a));
-    const formattedAuthorText = formattedAuthors.join(', ');
+    const formattedAuthors = trimmedAuthors.map((a) => formatAuthor(a))
+    const formattedAuthorText = formattedAuthors.join(', ')
 
     // For inline citation, use last name of first author
-    const firstAuthorParts = trimmedAuthors[0].split(' ');
+    const firstAuthorParts = trimmedAuthors[0].split(' ')
     const inlineAuthor =
       firstAuthorParts.length > 0
         ? firstAuthorParts[firstAuthorParts.length - 1]
-        : trimmedAuthors[0];
+        : trimmedAuthors[0]
 
-    let referenceText = '';
+    let referenceText = ''
 
     switch (sourceType) {
       case 'website':
-        referenceText = generateWebsiteReference(formattedAuthorText, style);
-        break;
+        referenceText = generateWebsiteReference(formattedAuthorText, style)
+        break
       case 'book':
-        referenceText = generateBookReference(formattedAuthorText, style);
-        break;
+        referenceText = generateBookReference(formattedAuthorText, style)
+        break
       case 'journal':
-        referenceText = generateJournalReference(formattedAuthorText, style);
-        break;
+        referenceText = generateJournalReference(formattedAuthorText, style)
+        break
       case 'video':
-        referenceText = generateVideoReference(formattedAuthorText, style);
-        break;
+        referenceText = generateVideoReference(formattedAuthorText, style)
+        break
       default:
-        referenceText = 'Unsupported source type';
+        referenceText = 'Unsupported source type'
     }
 
-    setReference(referenceText);
+    setReference(referenceText)
 
     const currentDate = new Date().toLocaleDateString('en-GB', {
       day: '2-digit',
       month: 'long',
       year: 'numeric'
-    });
+    })
 
     const output = `Your Generated Reference
 
@@ -184,49 +182,49 @@ Sed nisi quam, efficitur a hendrerit sit amet, volutpat vitae velit. Duis nisl n
 Suspendisse aliquet, urna ut gravida sollicitudin, sem augue molestie turpis, et euismod elit ante et neque. Duis semper at nisl vel tempus. Maecenas pellentesque sit amet odio et venenatis.
 
 Reference:
-${referenceText}`;
+${referenceText}`
 
-    setCitation(output);
-  };
+    setCitation(output)
+  }
 
   // Website reference formats
   const generateWebsiteReference = (formattedAuthorText, style) => {
-    const { title, year, url, accessDate, websiteName } = formData;
+    const { title, year, url, accessDate, websiteName } = formData
     const accessDateFormatted =
       accessDate ||
       new Date().toLocaleDateString('en-GB', {
         day: '2-digit',
         month: 'long',
         year: 'numeric'
-      });
+      })
 
     switch (style) {
       case 'APA 7':
         return `${formattedAuthorText} (${year}). *${title.trim()}*. ${
           websiteName ? `*${websiteName.trim()}*. ` : ''
-        }${url ? `${url.trim()}` : ''}`;
+        }${url ? `${url.trim()}` : ''}`
       case 'MLA 9':
         return `${formattedAuthorText} "${title.trim()}." ${
           websiteName ? `*${websiteName.trim()}*, ` : ''
-        }${year.trim()}. Web. ${accessDateFormatted}.`;
+        }${year.trim()}. Web. ${accessDateFormatted}.`
       case 'Chicago Author-Date':
         return `${formattedAuthorText} ${year.trim()}. "${title.trim()}." ${
           websiteName ? `*${websiteName.trim()}*. ` : ''
-        }Accessed ${accessDateFormatted}. ${url}.`;
+        }Accessed ${accessDateFormatted}. ${url}.`
       case 'Harvard':
         return `${formattedAuthorText} (${year.trim()}) '${title.trim()}', ${
           websiteName ? `*${websiteName.trim()}*, ` : ''
-        }viewed ${accessDateFormatted}, ${url}.`;
+        }viewed ${accessDateFormatted}, ${url}.`
       default:
         return `${formattedAuthorText} (${year}). *${title.trim()}*. ${
           websiteName ? `*${websiteName.trim()}*. ` : ''
-        }${url ? `${url.trim()}` : ''}`;
+        }${url ? `${url.trim()}` : ''}`
     }
-  };
+  }
 
   // Book reference formats
   const generateBookReference = (formattedAuthorText, style) => {
-    const { title, year, publisher, place, edition, pages } = formData;
+    const { title, year, publisher, place, edition, pages } = formData
 
     switch (style) {
       case 'APA 7':
@@ -234,37 +232,37 @@ ${referenceText}`;
           edition ? ` (${edition.trim()} ed.)` : ''
         }. ${publisher.trim()}${place ? `, ${place.trim()}` : ''}${
           pages ? `, pp. ${pages.trim()}` : ''
-        }.`;
+        }.`
       case 'MLA 9':
         return `${formattedAuthorText} *${title.trim()}*${
           edition ? `, ${edition.trim()} ed.` : ''
         }. ${publisher.trim()}, ${year.trim()}${
           pages ? `, pp. ${pages.trim()}` : ''
-        }.`;
+        }.`
       case 'Chicago Author-Date':
         return `${formattedAuthorText} ${year.trim()}. *${title.trim()}*${
           edition ? `, ${edition.trim()} ed.` : ''
         }. ${place || 'Place'}: ${publisher.trim()}${
           pages ? `, pp. ${pages.trim()}` : ''
-        }.`;
+        }.`
       case 'Harvard':
         return `${formattedAuthorText} (${year.trim()}) *${title.trim()}*${
           edition ? `, ${edition.trim()} edn` : ''
         }. ${place || 'Place'}: ${publisher.trim()}${
           pages ? `, pp. ${pages.trim()}` : ''
-        }.`;
+        }.`
       default:
         return `${formattedAuthorText} (${year.trim()}). *${title.trim()}*${
           edition ? ` (${edition.trim()} ed.)` : ''
         }. ${publisher.trim()}${place ? `, ${place.trim()}` : ''}${
           pages ? `, pp. ${pages.trim()}` : ''
-        }.`;
+        }.`
     }
-  };
+  }
 
   // Journal reference formats
   const generateJournalReference = (formattedAuthorText, style) => {
-    const { title, year, journalName, volume, issue, pageRange, doi } = formData;
+    const { title, year, journalName, volume, issue, pageRange, doi } = formData
 
     switch (style) {
       case 'APA 7':
@@ -272,41 +270,39 @@ ${referenceText}`;
           volume ? `, ${volume.trim()}` : ''
         }${issue ? `(${issue.trim()})` : ''}${
           pageRange ? `, ${pageRange.trim()}` : ''
-        }${doi ? `. https://doi.org/${doi.trim()}` : ''}.`;
+        }${doi ? `. https://doi.org/${doi.trim()}` : ''}.`
       case 'MLA 9':
         return `${formattedAuthorText} "${title.trim()}." *${journalName.trim()}*${
           volume ? `, vol. ${volume.trim()}` : ''
         }${issue ? `, no. ${issue.trim()}` : ''}, ${year.trim()}${
           pageRange ? `, pp. ${pageRange.trim()}` : ''
-        }.`;
+        }.`
       case 'Chicago Author-Date':
-        return `${formattedAuthorText} ${year.trim()}. "${title.trim()}." *${journalName.trim()}* ${
-          volume.trim()
-        }${issue ? ` (${issue.trim()})` : ''}${
+        return `${formattedAuthorText} ${year.trim()}. "${title.trim()}." *${journalName.trim()}* ${volume.trim()}${issue ? ` (${issue.trim()})` : ''}${
           pageRange ? `: ${pageRange.trim()}` : ''
-        }.`;
+        }.`
       case 'Harvard':
         return `${formattedAuthorText} (${year.trim()}) '${title.trim()}', *${journalName.trim()}*${
           volume ? `, vol. ${volume.trim()}` : ''
         }${issue ? `, no. ${issue.trim()}` : ''}${
           pageRange ? `, pp. ${pageRange.trim()}` : ''
-        }.`;
+        }.`
       default:
         return `${formattedAuthorText} (${year.trim()}). ${title.trim()}. *${journalName.trim()}*${
           volume ? `, ${volume.trim()}` : ''
         }${issue ? `(${issue.trim()})` : ''}${
           pageRange ? `, ${pageRange.trim()}` : ''
-        }${doi ? `. https://doi.org/${doi.trim()}` : ''}.`;
+        }${doi ? `. https://doi.org/${doi.trim()}` : ''}.`
     }
-  };
+  }
 
   // Video reference formats
   const generateVideoReference = (formattedAuthorText, style) => {
-    const { title, year, platform, duration, uploader, urlVideo } = formData;
+    const { title, year, platform, duration, uploader, urlVideo } = formData
 
     switch (style) {
       case 'APA 7':
-        return `${formattedAuthorText} (${year.trim()}). *${title.trim()}* [Video]. ${platform.trim()}. ${urlVideo.trim()}`;
+        return `${formattedAuthorText} (${year.trim()}). *${title.trim()}* [Video]. ${platform.trim()}. ${urlVideo.trim()}`
       case 'MLA 9':
         return `${formattedAuthorText} "${title.trim()}." ${platform.trim()}, ${
           uploader.trim() || formattedAuthorText
@@ -314,62 +310,63 @@ ${referenceText}`;
           day: '2-digit',
           month: 'long',
           year: 'numeric'
-        })}.`;
+        })}.`
       case 'Chicago Author-Date':
         return `${formattedAuthorText} ${year.trim()}. "${title.trim()}." ${platform.trim()} video${
           duration ? `, ${duration.trim()}` : ''
-        }. ${urlVideo.trim()}.`;
+        }. ${urlVideo.trim()}.`
       case 'Harvard':
-        return `${formattedAuthorText} (${year.trim()}) *${title.trim()}* [video], ${
-          platform.trim()
-        }, viewed ${new Date().toLocaleDateString('en-GB', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric'
-        })}, ${urlVideo.trim()}.`;
+        return `${formattedAuthorText} (${year.trim()}) *${title.trim()}* [video], ${platform.trim()}, viewed ${new Date().toLocaleDateString(
+          'en-GB',
+          {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+          }
+        )}, ${urlVideo.trim()}.`
       default:
-        return `${formattedAuthorText} (${year.trim()}). *${title.trim()}* [Video]. ${platform.trim()}. ${urlVideo.trim()}`;
+        return `${formattedAuthorText} (${year.trim()}). *${title.trim()}* [Video]. ${platform.trim()}. ${urlVideo.trim()}`
     }
-  };
+  }
 
   // Copy reference (with <em> around italicized parts)
   const copyToClipboard = async () => {
     try {
       // Split on asterisks and wrap odd-index parts in <em>
-      const htmlParts = reference.split('*').map((part, idx) =>
-        idx % 2 === 1 ? `<em>${part}</em>` : part
-      );
-      const htmlToCopy = htmlParts.join('');
+      const htmlParts = reference
+        .split('*')
+        .map((part, idx) => (idx % 2 === 1 ? `<em>${part}</em>` : part))
+      const htmlToCopy = htmlParts.join('')
 
       // Plain text version (remove asterisks)
-      const plainTextToCopy = reference.replace(/\*/g, '');
+      const plainTextToCopy = reference.replace(/\*/g, '')
 
-      const blobHtml = new Blob([htmlToCopy], { type: 'text/html' });
-      const blobText = new Blob([plainTextToCopy], { type: 'text/plain' });
+      const blobHtml = new Blob([htmlToCopy], { type: 'text/html' })
+      const blobText = new Blob([plainTextToCopy], { type: 'text/plain' })
       const clipboardItem = new ClipboardItem({
         'text/html': blobHtml,
         'text/plain': blobText
-      });
-      await navigator.clipboard.write([clipboardItem]);
+      })
+      await navigator.clipboard.write([clipboardItem])
 
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
+      setCopySuccess(true)
+      setTimeout(() => setCopySuccess(false), 2000)
     } catch (err) {
-      console.error('Failed to copy formatted reference: ', err);
+      console.error('Failed to copy formatted reference: ', err)
       // Fallback: copy plain text only
       try {
-        await navigator.clipboard.writeText(reference.replace(/\*/g, ''));
-        setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 2000);
+        await navigator.clipboard.writeText(reference.replace(/\*/g, ''))
+        setCopySuccess(true)
+        setTimeout(() => setCopySuccess(false), 2000)
       } catch (fallbackErr) {
-        console.error('Fallback copy failed: ', fallbackErr);
+        console.error('Fallback copy failed: ', fallbackErr)
       }
     }
-  };
+  }
 
   // Change source type
   const handleSourceTypeChange = (type) => {
-    setSourceType(type);
+    setSourceType(type)
     setFormData((prev) => ({
       authors: [''],
       title: '',
@@ -391,11 +388,11 @@ ${referenceText}`;
       duration: '',
       uploader: '',
       urlVideo: ''
-    }));
-    setCitation('');
-    setReference('');
-    setCopySuccess(false);
-  };
+    }))
+    setCitation('')
+    setReference('')
+    setCopySuccess(false)
+  }
 
   // Clear entire form
   const clearForm = () => {
@@ -420,11 +417,11 @@ ${referenceText}`;
       duration: '',
       uploader: '',
       urlVideo: ''
-    });
-    setCitation('');
-    setReference('');
-    setCopySuccess(false);
-  };
+    })
+    setCitation('')
+    setReference('')
+    setCopySuccess(false)
+  }
 
   // Render fields specific to each source type
   const renderSourceSpecificFields = () => {
@@ -472,7 +469,7 @@ ${referenceText}`;
               />
             </div>
           </>
-        );
+        )
 
       case 'book':
         return (
@@ -532,7 +529,7 @@ ${referenceText}`;
               />
             </div>
           </>
-        );
+        )
 
       case 'journal':
         return (
@@ -605,7 +602,7 @@ ${referenceText}`;
               />
             </div>
           </>
-        );
+        )
 
       case 'video':
         return (
@@ -665,12 +662,12 @@ ${referenceText}`;
               />
             </div>
           </>
-        );
+        )
 
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
@@ -690,7 +687,8 @@ ${referenceText}`;
             Academic Reference Generator
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Generate properly formatted academic citations with multiple-author support
+            Generate properly formatted academic citations with multiple-author
+            support
           </p>
         </div>
 
@@ -838,7 +836,9 @@ ${referenceText}`;
           {/* Output Section */}
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6 md:p-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Generated Citation</h2>
+              <h2 className="text-2xl font-bold text-gray-800">
+                Generated Citation
+              </h2>
               {citation && (
                 <div className="flex gap-2">
                   <button
@@ -894,7 +894,8 @@ ${referenceText}`;
         <div className="mt-12 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-6 md:p-8">
           <h3 className="font-bold text-blue-900 mb-4 text-xl flex items-center">
             <span className="mr-2">💡</span>
-            Tips for {sourceTypes.find((t) => t.id === sourceType)?.name} Citations
+            Tips for {sourceTypes.find((t) => t.id === sourceType)?.name}{' '}
+            Citations
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
             {sourceType === 'website' && (
@@ -1031,7 +1032,7 @@ ${referenceText}`;
           </div>
         </div>
       </div>
-    <Footer />
+      <Footer />
     </div>
-  );
+  )
 }

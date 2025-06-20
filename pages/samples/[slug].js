@@ -36,12 +36,12 @@ export default function Samples({ sample }) {
           {sample.title}
         </h1>
         <div className="flex">
-            <Typography variant="paragraph" color="black">
-              Words:
-            </Typography>
-            <Typography variant="h6" color="black" className="px-2">
-              {sample.wordCount}
-            </Typography>
+          <Typography variant="paragraph" color="black">
+            Words:
+          </Typography>
+          <Typography variant="h6" color="black" className="px-2">
+            {sample.wordCount}
+          </Typography>
         </div>
       </div>
       <div

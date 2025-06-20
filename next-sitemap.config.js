@@ -9,5 +9,5 @@ module.exports = {
       loc: path
     }
   },
-  exclude: ['/admin/*','/landing']
+  exclude: ['/admin/*', '/landing']
 }

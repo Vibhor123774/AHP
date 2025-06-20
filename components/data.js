@@ -157,12 +157,12 @@ const academicSupportServices = {
     {
       title: 'Editing & Proofreading Services',
       desc: 'Sharpen your writing with expert grammar checks, structure refinement, and clarity enhancements.',
-      icon: <DevicePhoneMobileIcon />,
+      icon: <DevicePhoneMobileIcon />
       // ctaUrl: 'services/dissertation-writing'
     },
     {
       title: 'Academic Research Assistance',
-      desc: "Learn how to find credible sources, build strong arguments, and structure research efficiently.",
+      desc: 'Learn how to find credible sources, build strong arguments, and structure research efficiently.',
       icon: <AdjustmentsHorizontalIcon />
     },
     {
@@ -180,18 +180,18 @@ const academicSupportServices = {
 
 const whyStudentChooseUs = {
   title: 'Why Students Choose Us',
-  desc: "",
+  desc: '',
   image: ourOfferingsImg,
   bullets: [
     {
       title: 'Student-Centered Approach',
       desc: 'We prioritise clarity, comprehension, and ethical academic growth.',
-      icon: <DevicePhoneMobileIcon />,
+      icon: <DevicePhoneMobileIcon />
       // ctaUrl: 'services/dissertation-writing'
     },
     {
       title: 'Subject-Matter Experts',
-      desc: "Our team consists of seasoned academic professionals across various disciplines.",
+      desc: 'Our team consists of seasoned academic professionals across various disciplines.',
       icon: <AdjustmentsHorizontalIcon />
     },
     {
@@ -357,17 +357,17 @@ const testimonialList = [
 
 const testimoniaLandinglList = [
   {
-    personName: "Amelia R., UK University Student",
+    personName: 'Amelia R., UK University Student',
     personPic: '/img/services/statistics.png',
     message:
-      "My research paper went from average to excellent with their editing support and resource guidance.",
+      'My research paper went from average to excellent with their editing support and resource guidance.',
     numberOfStars: 5
   },
   {
     personName: "Karan D., Master's Student",
     personPic: '/img/services/statistics.png',
     message:
-      "They helped me structure my thesis better and understand citation formats I was struggling with.",
+      'They helped me structure my thesis better and understand citation formats I was struggling with.',
     numberOfStars: 4
   }
 ]

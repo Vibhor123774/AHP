@@ -9,7 +9,9 @@ const law = () => {
   return (
     <>
       <Head>
-        <title>Law Assignment Sample 2025: Expert Examples & Guidance | AHP</title>
+        <title>
+          Law Assignment Sample 2025: Expert Examples & Guidance | AHP
+        </title>
         <meta
           name="description"
           content="Explore a law assignment sample covering case studies, legal analysis, and research examples. Perfect for students seeking guidance and quality insights in legal studies."

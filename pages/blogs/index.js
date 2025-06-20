@@ -3,9 +3,15 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Calendar, ArrowRight, Search, ChevronLeft, ChevronRight } from 'lucide-react'
+import {
+  Calendar,
+  ArrowRight,
+  Search,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react'
 import Footer from '../../components/footer'
-import Navbar from "../../components/navbar"
+import Navbar from '../../components/navbar'
 import Head from 'next/head'
 export default function BlogPage() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -16,8 +22,8 @@ export default function BlogPage() {
   const postsPerPage = 9
 
   const blogListRef = useRef(null)
-    const baseUrl = 'https://assignmentshelpprovider.com'
- const canonicalUrl = `${baseUrl}/blogs`
+  const baseUrl = 'https://assignmentshelpprovider.com'
+  const canonicalUrl = `${baseUrl}/blogs`
   // Calculate the current posts to display based on pagination
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
@@ -48,7 +54,7 @@ export default function BlogPage() {
           setBlogPosts(enriched)
         }
       } catch (error) {
-        console.error("Error fetching blog posts:", error)
+        console.error('Error fetching blog posts:', error)
       }
     }
     fetchBlogs()
@@ -91,34 +97,41 @@ export default function BlogPage() {
         <title>AHP - Blog</title>
         <meta name="blogs" content={'blogs'} />
       </Head>
-     {/* Sticky wrapper for both Navbar + Header */}
-<div className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
-  <Navbar />
+      {/* Sticky wrapper for both Navbar + Header */}
+      <div className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
+        <Navbar />
 
-  <header className="py-4 text-center"> {/* reduced py from 8 to 4 */}
-    <motion.h1
-      initial={{ opacity: 0, y: -30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="text-2xl font-semibold mb-1 text-gray-900 dark:text-white" // smaller font size and margin
-    >
-      Blogs
-    </motion.h1>
-    <p className="text-sm mb-3 text-gray-700 dark:text-gray-300"> {/* smaller font and margin */}
-      Tech, code & insights from TEAM AHP
-    </p>
-    <div className="relative max-w-sm mx-auto"> {/* smaller max-width */}
-      <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" /> {/* smaller icon */}
-      <input
-        type="text"
-        placeholder="Search posts..."
-        className="w-full pl-10 pr-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-white shadow-sm" // smaller padding and font
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-    </div>
-  </header>
-</div>
+        <header className="py-4 text-center">
+          {' '}
+          {/* reduced py from 8 to 4 */}
+          <motion.h1
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-2xl font-semibold mb-1 text-gray-900 dark:text-white" // smaller font size and margin
+          >
+            Blogs
+          </motion.h1>
+          <p className="text-sm mb-3 text-gray-700 dark:text-gray-300">
+            {' '}
+            {/* smaller font and margin */}
+            Tech, code & insights from TEAM AHP
+          </p>
+          <div className="relative max-w-sm mx-auto">
+            {' '}
+            {/* smaller max-width */}
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />{' '}
+            {/* smaller icon */}
+            <input
+              type="text"
+              placeholder="Search posts..."
+              className="w-full pl-10 pr-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-white shadow-sm" // smaller padding and font
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </header>
+      </div>
 
       {/* Main scrollable content */}
       <main
@@ -199,19 +212,18 @@ export default function BlogPage() {
 
         {/* No posts */}
         {filteredPosts.length === 0 && (
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  {[...Array(6)].map((_, i) => (
-    <div
-      key={i}
-      className="animate-pulse rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow"
-    >
-      <div className="h-40 w-full rounded-md bg-gray-200 dark:bg-gray-700 mb-4"></div>
-      <div className="h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
-      <div className="h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded"></div>
-    </div>
-  ))}
-</div>
-
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="animate-pulse rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow"
+              >
+                <div className="h-40 w-full rounded-md bg-gray-200 dark:bg-gray-700 mb-4"></div>
+                <div className="h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+                <div className="h-4 w-1/2 bg-gray-200 dark:bg-gray-700 rounded"></div>
+              </div>
+            ))}
+          </div>
         )}
 
         {/* Pagination */}

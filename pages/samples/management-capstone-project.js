@@ -290,8 +290,8 @@ const management_capstone_project = () => {
             after examining different alternatives. After the quick
             implementation of Parallels RAS, the company would be able to give
             safe, simple virtual access permissions to its workers using
-            Windows, Mac®, Android, iOS, and Microsoft Surface tablets, and also
-            any gadget having an HTML5 internet browser. The HTML5 internet
+            Windows, Mac®, Android, iOS, and Microsoft Surface tablets, and
+            also any gadget having an HTML5 internet browser. The HTML5 internet
             window client would enable employees to connect ERP systems without
             the need for hypervisor technology to be installed on their machine,
             making it much more adaptable and simpler to adopt for end customers
