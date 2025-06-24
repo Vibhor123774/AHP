@@ -22,8 +22,7 @@ export default function BlogPage() {
   const postsPerPage = 9
 
   const blogListRef = useRef(null)
-  const baseUrl = 'https://assignmentshelpprovider.com'
-  const canonicalUrl = `${baseUrl}/blogs`
+  const canonicalUrl = `https://www.assignmentshelpprovider.com/blogs/`
   // Calculate the current posts to display based on pagination
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage

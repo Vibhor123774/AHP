@@ -8,6 +8,7 @@ import { SampleCards } from '../components/SampleCards'
 import CustomBreadcrumbs from '../components/CustomBreadcrumbs'
 
 const samples = () => {
+   const canonicalUrl = `https://www.assignmentshelpprovider.com/samples/`
   return (
     <>
       <Head>
@@ -20,6 +21,7 @@ const samples = () => {
           content="Discover our curated academic samples, including accounts, dissertations, research projects, and finance reports. Perfect for insights and guidance in your studies."
         />
         <meta name="robots" content="index,follow" />
+         <link rel="canonical" href={canonicalUrl} />
         <link rel="icon" href="/favicon.png" />
       </Head>
       <Navbar />

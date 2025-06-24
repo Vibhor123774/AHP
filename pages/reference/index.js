@@ -67,8 +67,8 @@ export default function EnhancedReferenceGenerator() {
     { id: 'journal', name: 'Journal', icon: '📄' },
     { id: 'video', name: 'Video', icon: '🎥' }
   ]
-  const baseUrl = 'https://assignmentshelpprovider.com'
-  const canonicalUrl = `${baseUrl}/reference`
+
+  const canonicalUrl = `https://www.assignmentshelpprovider.com/reference/`
   // Helper: format a single author name as "Last, F."
   const formatAuthor = (authorName) => {
     if (!authorName) return ''
@@ -675,7 +675,8 @@ ${referenceText}`
       <Head>
         <link rel="canonical" href={canonicalUrl} />
         <title>Reference Generator</title>
-        <meta name="reference_generator" content={'Reference Generator'} />
+        
+        <meta name="description" content='Generate citations in APA, MLA, Chicago, and Harvard style with AHP free Citation Generator. Trusted by students worldwide.' />
       </Head>
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
