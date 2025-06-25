@@ -1,76 +1,78 @@
-// pages/sitemap.xml.js
-import { supabase } from '../lib/supabase'
-
-function generateSiteMap(blogs) {
-  return `<?xml version="1.0" encoding="UTF-8"?>
-   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-     <!-- Static pages -->
-     <url>
-       <loc>https://www.assignmentshelpprovider.com/</loc>
-       <lastmod>${new Date().toISOString()}</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>1.0</priority>
-     </url>
-     <url>
-       <loc>https://www.assignmentshelpprovider.com/blogs</loc>
-       <lastmod>${new Date().toISOString()}</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8</priority>
-     </url>
-     <!-- Blog posts -->
-     ${blogs
-       .map(({ slug, created_at, updated_at }) => {
-         return `
-       <url>
-           <loc>https://www.assignmentshelpprovider.com//blogs/${slug}</loc>
-           <lastmod>${updated_at || created_at}</lastmod>
-           <changefreq>monthly</changefreq>
-           <priority>0.7</priority>
-       </url>
-     `
-       })
-       .join('')}
-   </urlset>
- `
-}
-
-function SiteMap() {
-  // getServerSideProps will do the heavy lifting
-}
-
-export async function getServerSideProps({ res }) {
-  try {
-    // Fetch all blog posts
-    const { data: blogs, error } = await supabase
-      .from('blogs')
-      .select('slug, created_at, updated_at')
-      .order('created_at', { ascending: false })
-
-    if (error) throw error
-
-    // Generate the XML sitemap
-    const sitemap = generateSiteMap(blogs || [])
-
-    res.setHeader('Content-Type', 'text/xml')
-    res.write(sitemap)
-    res.end()
-
-    return {
-      props: {}
-    }
-  } catch (error) {
-    console.error('Error generating sitemap:', error)
-    
-    // Return empty sitemap on error
-    const emptySitemap = generateSiteMap([])
-    res.setHeader('Content-Type', 'text/xml')
-    res.write(emptySitemap)
-    res.end()
-
-    return {
-      props: {}
-    }
-  }
-}
-
-export default SiteMap
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://www.assignmentshelpprovider.com/services/dissertation-writing-service</loc><lastmod>2025-06-25T19:07:29.693Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/services/programming-assignment-help</loc><lastmod>2025-06-25T19:07:29.693Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/services/research-paper-writing-service</loc><lastmod>2025-06-25T19:07:29.693Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/services/thesis-writing-service</loc><lastmod>2025-06-25T19:07:29.693Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/accounting-assignment-help</loc><lastmod>2025-06-25T19:07:29.693Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/economics-assignment-help</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/engineering-assignment-help</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/finance-assignment-help</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/law-assignment-help</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/management-assignment-help</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/medical-assignment-help</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/nursing-assignment-help</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/subjects/psychology-assignment-help</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/accounting</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/accounting-sample-1</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/accounting-sample-2</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/accounting-sample-3</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/accounting-sample-4</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/economics</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/economics-sample-1</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/economics-sample-2</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/economics-sample-3</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/economics-sample-4</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/finance</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/finance-sample-1</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/finance-sample-2</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/finance-sample-3</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/finance-sample-4</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/law</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/law-sample-1</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/law-sample-2</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/law-sample-3</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/law-sample-4</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/management</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/management-sample-1</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/management-sample-2</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/management-sample-3</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/management-sample-4</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/medical</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/medical-sample-1</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/medical-sample-2</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/medical-sample-3</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/medical-sample-4</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/nursing</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/nursing-sample-1</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/nursing-sample-2</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/nursing-sample-3</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/nursing-sample-4</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/psychology</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/psychology-sample-1</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/psychology-sample-2</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/psychology-sample-3</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/psychology-sample-4</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/dissertation</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/business-plan</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/management-capstone-project</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/programming</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/research</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/prostate-cancer</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/significance-of-two-way-communication</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/supply-chain-management</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/samples/accounts</loc><lastmod>2025-06-25T19:07:29.694Z</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/top-dissertation-topics-ideas-in-2024</loc><lastmod>2025-05-18T13:17:12.484023+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/best-thesis-topics-in-2024-an-ultimate-guid</loc><lastmod>2025-05-18T13:22:47.113431+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/best-thesis-topics-in-2024-an-ultimate-guide</loc><lastmod>2025-05-18T11:51:04.435183+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/the-ultimate-guide-on-how-to-write-methodology-for-dissertation</loc><lastmod>2025-05-18T13:16:09.422838+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/top-mba-dissertation-topic-ideas-for-students-in-2024</loc><lastmod>2025-05-18T13:23:27.33522+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/thesis-vs-dissertation-identifying-your-academic-culmination</loc><lastmod>2025-05-18T13:20:19.482359+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/what-is-dissertation-everything-you-need-to-know</loc><lastmod>2025-05-18T13:18:42.593422+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/phd-dissertation-a-comprehensive-guide</loc><lastmod>2025-05-18T13:25:27.211539+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/top-dissertation-topics-ideas-in-2025</loc><lastmod>2025-05-18T13:13:40.846262+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/the-ultimate-guide-on-how-to-write-methodology-for-dissertatio</loc><lastmod>2025-05-18T13:21:47.667866+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/what-is-dissertation-everything-you-need-to--know</loc><lastmod>2025-05-18T13:14:44.197946+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/best-social-issues-topics-in-2025</loc><lastmod>2025-06-16T16:24:35.801174+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.assignmentshelpprovider.com/blogs/how-to-write-in-cursive</loc><lastmod>2025-06-17T07:20:05.85295+00:00</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+</urlset>
