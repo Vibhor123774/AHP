@@ -27,7 +27,7 @@ export default function Samples({ sample }) {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href={'https://assignmentshelpprovider.com/samples/' + sample.url}
+          href={'https://www.assignmentshelpprovider.com/samples/' + sample.url}
         />
       </Head>
       <Navbar />

@@ -19,7 +19,7 @@ export default function theseWriting() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/services/thesis-writing"
+          href="https://www.assignmentshelpprovider.com/services/thesis-writing"
         />
         <script
           type="application/ld+json"

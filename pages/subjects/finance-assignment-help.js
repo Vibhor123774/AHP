@@ -20,7 +20,7 @@ export default function finance() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/subjects/finance-assignment-help"
+          href="https://www.assignmentshelpprovider.com/subjects/finance-assignment-help"
         />
         <script
           type="application/ld+json"

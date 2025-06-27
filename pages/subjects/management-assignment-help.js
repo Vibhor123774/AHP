@@ -20,7 +20,7 @@ export default function management() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/subjects/management-assignment-help"
+          href="https://www.assignmentshelpprovider.com/subjects/management-assignment-help"
         />
         <script
           type="application/ld+json"

@@ -19,7 +19,7 @@ export default function programming() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/services/programming-assignment-help"
+          href="https://www.assignmentshelpprovider.com/services/programming-assignment-help"
         />
         <script
           type="application/ld+json"

@@ -18,7 +18,7 @@ export default function accounting() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/subjects/accounting-assignment-help"
+          href="https://www.assignmentshelpprovider.com/subjects/accounting-assignment-help"
         />
         <script
           type="application/ld+json"

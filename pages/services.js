@@ -37,7 +37,7 @@ const samples = () => {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/services"
+          href="https://www.assignmentshelpprovider.com/services"
         />
       </Head>
       <Navbar />

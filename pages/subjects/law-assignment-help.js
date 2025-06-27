@@ -20,7 +20,7 @@ export default function law() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/subjects/law-assignment-help"
+          href="https://www.assignmentshelpprovider.com/subjects/law-assignment-help"
         />
         <script
           type="application/ld+json"

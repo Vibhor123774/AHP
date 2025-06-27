@@ -18,7 +18,7 @@ export default function psychology() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/subjects/psychology-assignment-help"
+          href="https://www.assignmentshelpprovider.com/subjects/psychology-assignment-help"
         />
         <script
           type="application/ld+json"

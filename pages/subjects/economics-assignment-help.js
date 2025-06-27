@@ -20,7 +20,7 @@ export default function economics() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://assignmentshelpprovider.com/subjects/economics-assignment-help"
+          href="https://www.assignmentshelpprovider.com/subjects/economics-assignment-help"
         />
         <script
           type="application/ld+json"
