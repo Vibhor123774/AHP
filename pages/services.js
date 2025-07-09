@@ -1,3 +1,4 @@
+'use client'
 import { Typography } from '@material-tailwind/react'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
