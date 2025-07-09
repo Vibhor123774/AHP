@@ -1,28 +1,10 @@
-// _app.js
 import '../css/tailwind.css'
 import Script from 'next/script'
-import { ClerkProvider } from '@clerk/nextjs'
-import { UserProvider } from '../context/UserContext'
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <ClerkProvider
-        {...pageProps}
-        appearance={{
-          cssLayerName: 'clerk',
-        }}
-        publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-        signInUrl="/sign-in"
-        signUpUrl="/sign-up"
-        afterSignInUrl="/"
-        afterSignUpUrl="/"
-      >
-        <UserProvider>
-          <Component {...pageProps} />
-        </UserProvider>
-      </ClerkProvider>
-             
+      <Component {...pageProps} />
       {/* Google Analytics */}
       <Script
         strategy="beforeInteractive"
@@ -34,9 +16,40 @@ function MyApp({ Component, pageProps }) {
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
+
         gtag('config', 'G-GDMKHXL1EJ');
         `}
       </Script>
+
+      {/* Google Ad */}
+      {/* <Script
+        src="https://www.googletagmanager.com/gtag/js?id=AW-566347120"
+        strategy="beforeInteractive"
+      ></Script>
+      <Script strategy="beforeInteractive">
+        {` window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'AW-566347120');
+
+        function gtag_report_conversion(url) {
+          var callback = function () {
+            if (typeof(url) != 'undefined') {
+              window.location = url;
+            }
+          };
+          gtag('event', 'conversion', {
+              'send_to': 'AW-566347120/WOzaCKjfwpoaELn-9uY-',
+              'event_callback': callback
+          });
+          return false;
+        } 
+        `}
+      </Script> */}
+
+      {/* Facebook Pixel Ads */}
+
       <Script strategy="beforeInteractive">
         {`
         !function(f,b,e,v,n,t,s)
