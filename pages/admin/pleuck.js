@@ -114,7 +114,7 @@ const Editor = () => {
   return (
     <>
       <Head>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" />
       </Head>
       <Navbar />
       <BlogSubmitDialog open={dialogOpen} setOpen={setDialogOpen} />

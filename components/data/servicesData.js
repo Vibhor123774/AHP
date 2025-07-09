@@ -1,6 +1,6 @@
 const dissertationData = {
   serviceName: 'Dissertation Service',
-  pageUrl: 'dissertation-writing-service',
+  pageUrl: 'dissertation-writing',
   mainImage: '/img/services/dissertation-page.svg',
   title: 'Avail Dissertation Writing Services for Students',
   tagLine:

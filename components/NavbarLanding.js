@@ -154,9 +154,9 @@ const Navbarlanding = () => {
             </Link>
           </div>
         </nav>
-        <a href="/services/dissertation-writing-service" className="w-0"></a>
-        <a href="/services/research-paper-writing-service" className="w-0"></a>
-        <a href="/services/thesis-writing-service" className="w-0"></a>
+        <a href="/services/dissertation-writing" className="w-0"></a>
+        <a href="/services/research-paper-writing" className="w-0"></a>
+        <a href="/services/thesis-writing" className="w-0"></a>
         <a href="/services/programming-assignment-help" className="w-0"></a>
         <a href="/subjects/accounting-assignment-help" className="w-0"></a>
         <a href="/subjects/finance-assignment-help" className="w-0"></a>

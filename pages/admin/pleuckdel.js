@@ -28,7 +28,7 @@ const blogremover = () => {
   return (
     <>
       <Head>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" />
       </Head>
       <Navbar />
       <BlogDeleteDialog open={dialogOpen} setOpen={setDialogOpen} />
