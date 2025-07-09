@@ -22,6 +22,7 @@ export default function CustomBreadcrumbs(props) {
         return (
           <a
             href={href}
+            key={href}
             className={
               index == pathNames.length - 1 ? 'opacity-95' : 'opacity-60'
             }

@@ -27,6 +27,7 @@ const Testimonials = () => {
       >
         {testimonialList.map((testimonial, index) => (
           <TestimonialCard
+            key={index}
             personName={testimonial.personName}
             personPic={testimonial.personPic}
             message={testimonial.message}

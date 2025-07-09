@@ -26,17 +26,19 @@ export function TestimonialWithPictures(props) {
           </div>
         )}
       >
-        {props.data.map((testimonial, index) => {
-          return (
-            <Image
-              src={testimonial.imgUrl}
-              height="300"
-              width="250"
-              alt={testimonial.alt}
-              className="mx-auto"
-            />
-          )
-        })}
+       {props.data.map((testimonial, index) => {
+  return (
+    <Image
+      key={index}
+      src={testimonial.imgUrl}
+      height="300"
+      width="250"
+      alt={testimonial.alt}
+      className="mx-auto"
+    />
+  )
+})}
+
       </Carousel>
     </div>
   )
