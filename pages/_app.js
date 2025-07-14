@@ -1,8 +1,6 @@
-// _app.js
 import '../css/tailwind.css'
 import Script from 'next/script'
 import { ClerkProvider } from '@clerk/nextjs'
-import { UserProvider } from '../context/UserContext'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -12,17 +10,16 @@ function MyApp({ Component, pageProps }) {
         appearance={{
           cssLayerName: 'clerk',
         }}
+        // Add these configuration options
         publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
         signInUrl="/sign-in"
         signUpUrl="/sign-up"
         afterSignInUrl="/"
         afterSignUpUrl="/"
       >
-        <UserProvider>
-          <Component {...pageProps} />
-        </UserProvider>
+        <Component {...pageProps} />
       </ClerkProvider>
-             
+      
       {/* Google Analytics */}
       <Script
         strategy="beforeInteractive"
