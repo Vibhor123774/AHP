@@ -61,10 +61,10 @@ module.exports = {
 
     // Static service pages
     const servicePages = [
-      '/services/dissertation-writing',
+      '/services/dissertation-writing-service',
       '/services/programming-assignment-help',
-      '/services/research-paper-writing',
-      '/services/thesis-writing'
+      '/services/research-paper-writing-service',
+      '/services/thesis-writing-service'
     ]
 
     servicePages.forEach(path => {

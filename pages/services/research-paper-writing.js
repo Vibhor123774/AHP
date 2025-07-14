@@ -19,7 +19,7 @@ export default function researchPaper() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://www.assignmentshelpprovider.com/services/research-paper-writing"
+          href="https://assignmentshelpprovider.com/services/research-paper-writing"
         />
         <script
           type="application/ld+json"

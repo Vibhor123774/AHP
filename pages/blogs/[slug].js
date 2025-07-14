@@ -207,7 +207,7 @@ export default function BlogPost() {
         <Head key={`loading-${slug || 'no-slug'}`}>
           <title>{loadingTitle} | Assignments Help Provider</title>
           <meta name="description" content={loadingDescription} />
-          <meta name="robots" />
+          <meta name="robots" content="noindex, nofollow" />
         </Head>
         
         {loading ? (

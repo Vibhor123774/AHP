@@ -11,15 +11,15 @@ export default function Footer() {
       links: [
         {
           name: 'Dissertation Writing Services',
-          url: '/services/dissertation-writing'
+          url: '/services/dissertation-writing-service'
         },
         {
           name: 'Research Paper Writing Service',
-          url: '/services/research-paper-writing'
+          url: '/services/research-paper-writing-service'
         },
         {
           name: 'Thesis Writing Services',
-          url: '/services/thesis-writing'
+          url: '/services/thesis-writing-service'
         },
         {
           name: 'Programming Assignment Help',
