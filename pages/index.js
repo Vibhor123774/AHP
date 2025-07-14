@@ -38,7 +38,7 @@ const Home = () => {
         />
         <meta name="robots" content="index,follow" />
         <link rel="icon" href="/favicon.png" />
-        <link rel="canonical" href="https://www.assignmentshelpprovider.com/" />
+        <link rel="canonical" href="https://www.assignmentshelpprovider.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
