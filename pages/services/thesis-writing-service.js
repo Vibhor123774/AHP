@@ -21,7 +21,7 @@ export default function thesisWritingService() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://www.assignmentshelpprovider.com/services/thesis-writing-service"
+          href="https://www.assignmentshelpprovider.com/services/thesis-writing"
         />
         <script
           type="application/ld+json"

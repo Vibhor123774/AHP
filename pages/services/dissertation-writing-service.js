@@ -27,7 +27,7 @@ export default function dissertation() {
         <link rel="icon" href="/favicon.png" />
         <link
           rel="canonical"
-          href="https://www.assignmentshelpprovider.com/services/dissertation-writing-service"
+          href="https://www.assignmentshelpprovider.com/services/dissertation-writing"
         />
         <script
           type="application/ld+json"

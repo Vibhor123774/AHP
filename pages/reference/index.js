@@ -68,7 +68,7 @@ export default function EnhancedReferenceGenerator() {
     { id: 'video', name: 'Video', icon: '🎥' }
   ]
 
-  const canonicalUrl = `https://www.assignmentshelpprovider.com/reference/`
+  const canonicalUrl = `https://www.assignmentshelpprovider.com/reference`
   // Helper: format a single author name as "Last, F."
   const formatAuthor = (authorName) => {
     if (!authorName) return ''

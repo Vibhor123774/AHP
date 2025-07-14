@@ -233,13 +233,13 @@ const Navbar = () => {
 
         {/* SEO Preload Links (Hidden) */}
         <div className="sr-only">
-          <a href="/services/dissertation-writing-service">
+          <a href="/services/dissertation-writing">
             Dissertation Writing Service
           </a>
-          <a href="/services/research-paper-writing-service">
+          <a href="/services/research-paper-writing">
             Research Paper Writing Service
           </a>
-          <a href="/services/thesis-writing-service">Thesis Writing Service</a>
+          <a href="/services/thesis-writing">Thesis Writing Service</a>
           <a href="/services/programming-assignment-help">
             Programming Assignment Help
           </a>
