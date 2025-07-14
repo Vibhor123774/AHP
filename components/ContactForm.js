@@ -62,49 +62,62 @@ export default function ContactForm(props) {
     ) // Validate based on selected country
   }
 
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    if (!isPhoneValid || phone.trim() === '') {
-      setPhoneInputProperties({
-        width: '100%',
-        height: '100%',
-        border: '2px solid',
-        borderColor: 'red'
-      })
-      return
-    }
-    let formData = new FormData(e.currentTarget)
-    formData.append('dueDate', date)
-    formData.append('phone', phone)
-    if (pageNumText === '') {
-      formData.append('pageNumber', pageNum)
-    } else {
-      formData.append('pageNumber', pageNumText)
-    }
-    if (subjectText === '') {
-      formData.append('subject', subject)
-    } else {
-      formData.append('subject', subjectText)
-    }
-    if (serviceText === '') {
-      formData.append('service', service)
-    } else {
-      formData.append('service', serviceText)
-    }
 
-    selectedFiles.forEach((file) => {
-      formData.append('assignmentFile', file)
+
+const onSubmit = async (e) => {
+  e.preventDefault()
+  if (!isPhoneValid || phone.trim() === '') {
+    setPhoneInputProperties({
+      width: '100%',
+      height: '100%',
+      border: '2px solid',
+      borderColor: 'red'
     })
+    return
+  }
+  
+  let formData = new FormData(e.currentTarget)
+  formData.append('dueDate', date)
+  formData.append('phone', phone)
+  
+  if (pageNumText === '') {
+    formData.append('pageNumber', pageNum)
+  } else {
+    formData.append('pageNumber', pageNumText)
+  }
+  
+  if (subjectText === '') {
+    formData.append('subject', subject)
+  } else {
+    formData.append('subject', subjectText)
+  }
+  
+  if (serviceText === '') {
+    formData.append('service', service)
+  } else {
+    formData.append('service', serviceText)
+  }
 
-    const response = await fetch('https://ahp-apis.onrender.com/contact', {
+  selectedFiles.forEach((file) => {
+    formData.append('assignmentFile', file)
+  })
+
+  try {
+    const response = await fetch('/api/contact', {
       method: 'POST',
       body: formData
     })
-    if (response.status === 200) {
+    
+    if (response.ok) {
       fbq('track', 'Lead')
       setDialogOpen(true)
+    } else {
+      console.error('Form submission failed')
     }
+  } catch (error) {
+    console.error('Error submitting form:', error)
   }
+}
 
   return (
     // Add `lg:max-h-[70vh] lg:overflow-y-auto` so that on laptop screens the form never exceeds 70vh
