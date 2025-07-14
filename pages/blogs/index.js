@@ -56,7 +56,7 @@ export default function BlogPage() {
   const postsPerPage = 9
 
   const blogListRef = useRef(null)
-  const canonicalUrl = `https://www.assignmentshelpprovider.com/blogs`
+  const canonicalUrl = `https://www.assignmentshelpprovider.com/blogs/`
   
   // Calculate the current posts to display based on pagination
   const indexOfLastPost = currentPage * postsPerPage
@@ -143,7 +143,7 @@ export default function BlogPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-gray-950 text-gray-900 dark:text-white flex flex-col">
       <Head>
         <link rel="canonical" href={canonicalUrl} />
-        <title>Assignment Tips, Student Hacks & Study Fun | Blog by AssignmentsHelpProvider</title>
+        <title>AHP - Blog</title>
         <meta name="description" content="Read the latest blogs and insights from TEAM AHP on technology, assignments, and academic help." />
         <meta name="keywords" content="blogs, technology, assignments, academic help, education" />
       </Head>
