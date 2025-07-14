@@ -9,7 +9,7 @@ import { SampleCards } from '../components/SampleCards'
 import CustomBreadcrumbs from '../components/CustomBreadcrumbs'
 
 const samples = () => {
-   const canonicalUrl = `https://www.assignmentshelpprovider.com/samples/`
+   const canonicalUrl = `https://www.assignmentshelpprovider.com/samples`
   return (
     <>
       <Head>
