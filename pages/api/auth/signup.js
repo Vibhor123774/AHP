@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
     // Create user with default 'seo' role
     // Admin will manually change role in database if needed
-    const user = await createUser(email, password, '');
+    const user = await createUser(email, password, 'user');
 
     res.status(201).json({
       message: 'User created successfully. Please contact admin to set your role.',
