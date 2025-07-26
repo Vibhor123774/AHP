@@ -1,3 +1,4 @@
+// pages/api/contact.js
 import { supabase } from '../../lib/supabase';
 import { uploadFilesToSupabase } from '../../lib/fileUpload';
 import { sendContactEmail } from '../../lib/emailService';

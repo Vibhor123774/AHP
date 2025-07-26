@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
@@ -44,34 +45,21 @@ import {
   Tag,
   ChevronLeft,
   Save,
-  FileText
+  FileText,
+  UserCircleIcon,
+  PowerIcon,
+  Cog6ToothIcon,
+  ArrowLeftIcon
 } from 'lucide-react'
 
 import { supabase } from '../../lib/supabase'
 import { uploadImageToSupabase } from '../../lib/uploadImage'
 
-export default function AdminPage() {
-  // ── PASSCODE SETUP ───────────────────────────────────────────
-  const PASSCODE = 'AHPX2025' // <-- Replace with your actual passcode
-  const [authenticated, setAuthenticated] = useState(false)
-  const [inputPasscode, setInputPasscode] = useState('')
-  const [authenticating, setAuthenticating] = useState(false)
-
-  const handlePasscodeSubmit = () => {
-    if (!inputPasscode.trim()) {
-      toast.error('Please enter the passcode')
-      return
-    }
-    setAuthenticating(true)
-    if (inputPasscode === PASSCODE) {
-      setAuthenticated(true)
-      toast.success('Access granted')
-    } else {
-      toast.error('Incorrect passcode')
-    }
-    setAuthenticating(false)
-    setInputPasscode('')
-  }
+export default function WritePage() {
+  // ── Authentication State ───────────────────────────────────────────
+  const [user, setUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(true)
+  const router = useRouter()
 
   // ── State for blog list ───────────────────────────────────
   const [blogs, setBlogs] = useState([])
@@ -92,6 +80,45 @@ export default function AdminPage() {
   const [coverImage, setCoverImage] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [readingTime, setReadingTime] = useState('7')
+
+  // ── Authentication check ───────────────────────────────────────────
+  useEffect(() => {
+    fetchUserData()
+  }, [])
+
+  const fetchUserData = async () => {
+    try {
+      console.log('Fetching user data...') // Debug log
+      const response = await fetch('/api/auth/me')
+      console.log('Auth response status:', response.status) // Debug log
+      
+      if (response.ok) {
+        const userData = await response.json()
+        console.log('User data:', userData) // Debug log
+        setUser(userData)
+        // Only fetch blogs after user is authenticated
+        fetchBlogs()
+      } else {
+        console.log('Not authenticated, redirecting to login') // Debug log
+        router.push('/login')
+      }
+    } catch (error) {
+      console.error('Failed to fetch user data:', error)
+      router.push('/login')
+    } finally {
+      setAuthLoading(false)
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      router.push('/login')
+    } catch (error) {
+      console.error('Logout error:', error)
+      router.push('/login')
+    }
+  }
 
   // ── Initialize TipTap editor ───────────────────────────────
   const lowlight = createLowlight(common)
@@ -148,14 +175,6 @@ export default function AdminPage() {
     }
   })
 
-  // ── Load blogs on mount (only after authentication) ─────────────────────────────────────
-  useEffect(() => {
-    if (authenticated) {
-      fetchBlogs()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authenticated])
-
   const fetchBlogs = async () => {
     setLoadingBlogs(true)
     try {
@@ -174,7 +193,7 @@ export default function AdminPage() {
     }
   }
 
-  // ── Reset form to “empty” ──────────────────────────────────
+  // ── Reset form to "empty" ──────────────────────────────────
   const resetForm = () => {
     setTitle('')
     setExcerpt('')
@@ -188,19 +207,19 @@ export default function AdminPage() {
     editor?.commands.clearContent()
   }
 
-  // ── Switch to “Add New” view ───────────────────────────────
+  // ── Switch to "Add New" view ───────────────────────────────
   const handleAddNew = () => {
     resetForm()
     setCurrentView('add')
   }
 
-  // ── Switch back to “List” view ─────────────────────────────
+  // ── Switch back to "List" view ─────────────────────────────
   const handleBackToList = () => {
     resetForm()
     setCurrentView('list')
   }
 
-  // ── When the user clicks “Edit” on a blog ─────────────────
+  // ── When the user clicks "Edit" on a blog ─────────────────
   const handleEditBlog = (blog) => {
     setEditingBlog(blog)
     setTitle(blog.title || '')
@@ -326,7 +345,7 @@ export default function AdminPage() {
     toast.success('Link added')
   }
 
-  // ── Create or Update blog on “Publish” / “Update” ──────────
+  // ── Create or Update blog on "Publish" / "Update" ──────────
   const handleSubmit = async () => {
     // Basic validation
     if (!title.trim()) {
@@ -409,7 +428,8 @@ export default function AdminPage() {
           cover_image_url: coverImage,
           reading_time: parseInt(readingTime) || 7,
           meta_title: metaTitle.trim(),
-          meta_description: metaDescription.trim()
+          meta_description: metaDescription.trim(),
+          added_by: user.email // Track who created the blog
         }
 
         const { data, error } = await supabase
@@ -425,7 +445,7 @@ export default function AdminPage() {
         toast.success('Blog published successfully!')
       }
 
-      // Refresh list and go back to “list” view
+      // Refresh list and go back to "list" view
       await fetchBlogs()
       handleBackToList()
     } catch (error) {
@@ -454,50 +474,102 @@ export default function AdminPage() {
       day: 'numeric'
     })
 
-  // ── Render passcode prompt if not authorized ─────────────────
-  if (!authenticated) {
+  // ── Show loading while checking authentication ─────────────────────────────────────
+  if (authLoading) {
     return (
-      <div className="min-h-screen bg-blue-50 dark:bg-slate-800 flex items-center justify-center px-4">
-        <Head>
-          <title>Admin Dashboard</title>
-          <meta name="adminDashboard" content={'Blog post'} />
-        </Head>
-        <div className="w-full max-w-md bg-white dark:bg-slate-700 rounded-lg p-6 shadow-md">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">
-            Enter Passcode
-          </h2>
-          <input
-            type="password"
-            value={inputPasscode}
-            onChange={(e) => setInputPasscode(e.target.value)}
-            placeholder="Passcode"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent text-gray-900 dark:text-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 mb-4"
-          />
-          <button
-            onClick={handlePasscodeSubmit}
-            disabled={authenticating}
-            className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white px-4 py-2 rounded-md font-medium"
-          >
-            {authenticating ? 'Verifying...' : 'Submit'}
-          </button>
+      <div className="min-h-screen bg-blue-50 dark:bg-slate-800 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-600 mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">Checking authentication...</p>
         </div>
       </div>
     )
   }
 
+  // ── Show nothing if not authenticated (will redirect) ─────────────────────────────────────
+  if (!user) {
+    return null
+  }
+
+  const renderNavbar = () => (
+    <nav className="bg-white dark:bg-slate-700 shadow-sm border-b border-gray-200 dark:border-gray-600 mb-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center space-x-4">
+            <div className="bg-green-600 text-white px-4 py-2 rounded-lg">
+              <span className="font-bold text-lg">AHP</span>
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                Write Blogs
+              </h1>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Content Management System
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            {/* Dashboard Link for Admin */}
+            {user.role === 'admin' && (
+              <button
+                onClick={() => router.push('/dashboard')}
+                className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-600 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <ArrowLeftIcon className="h-4 w-4" />
+                <span>Dashboard</span>
+              </button>
+            )}
+
+            {/* User Info */}
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  {user.email}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {user.role.toUpperCase()}
+                </p>
+              </div>
+
+              {/* User Menu */}
+              <div className="relative">
+                <button
+                  onClick={() => router.push('/change-password')}
+                  className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+                  title="Change Password"
+                >
+                  <Cog6ToothIcon className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="p-2 text-red-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-md ml-2"
+                  title="Logout"
+                >
+                  <PowerIcon className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  )
+
   const renderBlogList = () => (
     <div className="space-y-6">
       <Head>
-        <title>Admin Dashboard</title>
-        <meta name="adminDashboard" content={'Blog post'} />
+        <title>Write Blogs - Assignments Help Provider</title>
+        <meta name="description" content="Blog post management system" />
       </Head>
+      
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
             Blog Management
-          </h1>
+          </h2>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Manage your blog posts
+            Create and manage your blog posts
           </p>
         </div>
         <button
@@ -572,6 +644,12 @@ export default function AdminPage() {
                               ` +${blog.tags.length - 2}`}
                           </div>
                         )}
+                        {blog.added_by && (
+                          <div className="flex items-center gap-1">
+                            <UserCircleIcon className="h-4 w-4" />
+                            {blog.added_by}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
@@ -600,7 +678,7 @@ export default function AdminPage() {
     </div>
   )
 
-  // ── Render the “Add/Edit Blog” form ────────────────────────
+  // ── Render the "Add/Edit Blog" form ────────────────────────
   const renderBlogForm = () => (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -612,9 +690,9 @@ export default function AdminPage() {
             <ChevronLeft className="h-5 w-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
               {editingBlog ? 'Edit Blog Post' : 'Create New Blog Post'}
-            </h1>
+            </h2>
             {editingBlog && (
               <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                 Editing: {editingBlog.title}
@@ -699,6 +777,8 @@ export default function AdminPage() {
             {metaTitle.length}/80 characters
           </div>
         </div>
+
+       
 
         {/* Meta Description */}
         <div>
