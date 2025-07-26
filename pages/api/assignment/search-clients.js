@@ -25,18 +25,25 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Search query must be at least 2 characters' });
     }
 
-    // Search clients by name
+    console.log('Searching clients with query:', q);
+
+    // Search clients by name with case-insensitive matching
     const { data: clients, error } = await supabaseServer
       .from('clients')
-      .select('id, name, phone, client_id, assignment_count')
+      .select('id, name, phone, client_id, assignment_count, created_at')
       .ilike('name', `%${q}%`)
-      .order('name')
+      .order('assignment_count', { ascending: false }) // Show clients with more assignments first
       .limit(10);
 
     if (error) {
       console.error('Client search error:', error);
-      throw error;
+      return res.status(500).json({ 
+        message: 'Database error while searching clients',
+        error: error.message 
+      });
     }
+
+    console.log('Found clients:', clients?.length || 0);
 
     res.status(200).json({
       clients: clients || []

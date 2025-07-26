@@ -1,5 +1,5 @@
 // pages/assignment.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -54,6 +54,21 @@ export default function AssignmentForm() {
   // Auto-suggestion states
   const [clientSuggestions, setClientSuggestions] = useState([]);
   const [writerSuggestions, setWriterSuggestions] = useState([]);
+  const [showClientSuggestions, setShowClientSuggestions] = useState(false);
+  const [showWriterSuggestions, setShowWriterSuggestions] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedWriter, setSelectedWriter] = useState(null);
+  const [searchingClients, setSearchingClients] = useState(false);
+  const [searchingWriters, setSearchingWriters] = useState(false);
+  
+  // Refs for suggestion dropdowns
+  const clientSuggestionsRef = useRef(null);
+  const writerSuggestionsRef = useRef(null);
+  
+  // Debounce timers
+  const clientSearchTimer = useRef(null);
+  const writerSearchTimer = useRef(null);
+  
   const [currencies] = useState([
     'USD', 'EUR', 'GBP', 'INR', 'AUD', 'CAD', 'JPY', 'CNY', 'SGD', 'AED',
     'CHF', 'SEK', 'NOK', 'DKK', 'PLN', 'CZK', 'HUF', 'RUB', 'BRL', 'MXN'
@@ -61,6 +76,33 @@ export default function AssignmentForm() {
 
   useEffect(() => {
     fetchUserData();
+  }, []);
+
+  // Clean up timers on unmount
+  useEffect(() => {
+    return () => {
+      if (clientSearchTimer.current) {
+        clearTimeout(clientSearchTimer.current);
+      }
+      if (writerSearchTimer.current) {
+        clearTimeout(writerSearchTimer.current);
+      }
+    };
+  }, []);
+
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (clientSuggestionsRef.current && !clientSuggestionsRef.current.contains(event.target)) {
+        setShowClientSuggestions(false);
+      }
+      if (writerSuggestionsRef.current && !writerSuggestionsRef.current.contains(event.target)) {
+        setShowWriterSuggestions(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const fetchUserData = async () => {
@@ -96,6 +138,109 @@ export default function AssignmentForm() {
     }
   };
 
+  // Search clients with debouncing
+  const searchClients = async (query) => {
+    if (query.length < 2) {
+      setClientSuggestions([]);
+      setShowClientSuggestions(false);
+      return;
+    }
+
+    setSearchingClients(true);
+    
+    try {
+      const response = await fetch(`/api/assignment/search-clients?q=${encodeURIComponent(query)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setClientSuggestions(data.clients || []);
+        setShowClientSuggestions(true);
+      } else {
+        console.error('Failed to search clients:', response.statusText);
+        setClientSuggestions([]);
+        setShowClientSuggestions(false);
+      }
+    } catch (error) {
+      console.error('Error searching clients:', error);
+      setClientSuggestions([]);
+      setShowClientSuggestions(false);
+    } finally {
+      setSearchingClients(false);
+    }
+  };
+
+  // Search writers with debouncing
+  const searchWriters = async (query) => {
+    if (query.length < 2) {
+      setWriterSuggestions([]);
+      setShowWriterSuggestions(false);
+      return;
+    }
+
+    setSearchingWriters(true);
+    
+    try {
+      const response = await fetch(`/api/assignment/search-writers?q=${encodeURIComponent(query)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setWriterSuggestions(data.writers || []);
+        setShowWriterSuggestions(true);
+      } else {
+        console.error('Failed to search writers:', response.statusText);
+        setWriterSuggestions([]);
+        setShowWriterSuggestions(false);
+      }
+    } catch (error) {
+      console.error('Error searching writers:', error);
+      setWriterSuggestions([]);
+      setShowWriterSuggestions(false);
+    } finally {
+      setSearchingWriters(false);
+    }
+  };
+
+  // Debounced search for clients
+  const debouncedClientSearch = (query) => {
+    if (clientSearchTimer.current) {
+      clearTimeout(clientSearchTimer.current);
+    }
+    
+    clientSearchTimer.current = setTimeout(() => {
+      searchClients(query);
+    }, 300); // 300ms delay
+  };
+
+  // Debounced search for writers
+  const debouncedWriterSearch = (query) => {
+    if (writerSearchTimer.current) {
+      clearTimeout(writerSearchTimer.current);
+    }
+    
+    writerSearchTimer.current = setTimeout(() => {
+      searchWriters(query);
+    }, 300); // 300ms delay
+  };
+
+  const handleClientSelect = (client) => {
+    setSelectedClient(client);
+    setFormData(prev => ({
+      ...prev,
+      clientName: client.name,
+      clientNumber: client.phone || '',
+      clientCode: generateClientCode(client.client_id || client.id, (client.assignment_count || 0) + 1)
+    }));
+    setShowClientSuggestions(false);
+  };
+
+  const handleWriterSelect = (writer) => {
+    setSelectedWriter(writer);
+    setFormData(prev => ({
+      ...prev,
+      writerName: writer.name,
+      writerEmail: writer.email
+    }));
+    setShowWriterSuggestions(false);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -103,15 +248,51 @@ export default function AssignmentForm() {
       [name]: value
     }));
 
-    // Auto-generate client code when client name changes
+    // Handle client name changes
     if (name === 'clientName') {
-      // This would typically search for existing clients
-      // For now, we'll generate a placeholder code
-      const code = generateClientCode(value);
-      setFormData(prev => ({
-        ...prev,
-        clientCode: code
-      }));
+      setSelectedClient(null); // Clear selected client when manually typing
+      
+      if (value.trim().length >= 2) {
+        debouncedClientSearch(value.trim());
+      } else {
+        setClientSuggestions([]);
+        setShowClientSuggestions(false);
+        // Clear client code when client name is cleared
+        setFormData(prev => ({
+          ...prev,
+          clientCode: '',
+          clientNumber: ''
+        }));
+      }
+    }
+
+    // Handle writer name changes
+    if (name === 'writerName') {
+      setSelectedWriter(null); // Clear selected writer when manually typing
+      
+      if (value.trim().length >= 2) {
+        debouncedWriterSearch(value.trim());
+      } else {
+        setWriterSuggestions([]);
+        setShowWriterSuggestions(false);
+        // Clear writer email when writer name is cleared
+        setFormData(prev => ({
+          ...prev,
+          writerEmail: ''
+        }));
+      }
+    }
+
+    // Handle writer email changes - search by email too
+    if (name === 'writerEmail') {
+      setSelectedWriter(null);
+      
+      if (value.trim().length >= 2) {
+        debouncedWriterSearch(value.trim());
+      } else {
+        setWriterSuggestions([]);
+        setShowWriterSuggestions(false);
+      }
     }
 
     // Clear messages when user types
@@ -119,15 +300,13 @@ export default function AssignmentForm() {
     setSuccess('');
   };
 
-  const generateClientCode = (clientName) => {
-    if (!clientName.trim()) return '';
+  const generateClientCode = (clientId, taskSequence) => {
+    if (!clientId) return '';
     
-    // Generate a simple code format: AHPX01X0001
-    // In a real app, this would check existing clients and generate proper sequential numbers
-    const clientId = '01'; // This should come from database
-    const taskSequence = '0001'; // This should increment based on existing assignments
+    const paddedClientId = String(clientId).padStart(2, '0');
+    const paddedTaskSequence = String(taskSequence).padStart(4, '0');
     
-    return `AHPX${clientId}X${taskSequence}`;
+    return `AHPX${paddedClientId}X${paddedTaskSequence}`;
   };
 
   const formatAmount = (value) => {
@@ -140,9 +319,9 @@ export default function AssignmentForm() {
       return parts[0] + '.' + parts[1];
     }
     
-    // Add .00 if no decimal
-    if (parts.length === 1 && numericValue && !numericValue.includes('.')) {
-      return numericValue + '.00';
+    // Limit to 2 decimal places
+    if (parts.length === 2 && parts[1].length > 2) {
+      return parts[0] + '.' + parts[1].substring(0, 2);
     }
     
     return numericValue;
@@ -153,6 +332,19 @@ export default function AssignmentForm() {
     setFormData(prev => ({
       ...prev,
       amount: formattedAmount
+    }));
+  };
+
+  const handleAmountBlur = (e) => {
+    let value = e.target.value;
+    if (value && !value.includes('.')) {
+      value = value + '.00';
+    } else if (value && value.includes('.') && value.split('.')[1].length === 1) {
+      value = value + '0';
+    }
+    setFormData(prev => ({
+      ...prev,
+      amount: value
     }));
   };
 
@@ -214,14 +406,15 @@ export default function AssignmentForm() {
         },
         body: JSON.stringify({
           ...formData,
-          addedBy: user.email
+          addedBy: user.email,
+          selectedClientId: selectedClient?.id || null
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess('Assignment created successfully!');
+        setSuccess(`Assignment created successfully! Assignment ID: ${data.assignmentId}`);
         // Reset form
         setFormData({
           clientName: '',
@@ -234,6 +427,8 @@ export default function AssignmentForm() {
           writerEmail: '',
           writerDate: ''
         });
+        setSelectedClient(null);
+        setSelectedWriter(null);
       } else {
         setError(data.message || 'Failed to create assignment');
         console.error('Assignment creation failed:', data);
@@ -258,6 +453,12 @@ export default function AssignmentForm() {
       writerEmail: '',
       writerDate: ''
     });
+    setSelectedClient(null);
+    setSelectedWriter(null);
+    setClientSuggestions([]);
+    setWriterSuggestions([]);
+    setShowClientSuggestions(false);
+    setShowWriterSuggestions(false);
     setError('');
     setSuccess('');
   };
@@ -369,7 +570,7 @@ export default function AssignmentForm() {
                   </Typography>
 
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div>
+                    <div className="relative" ref={clientSuggestionsRef}>
                       <Input
                         name="clientName"
                         label="Client Name *"
@@ -378,6 +579,40 @@ export default function AssignmentForm() {
                         className="focus:ring-0"
                         required
                       />
+                      {/* Loading indicator for client search */}
+                      {searchingClients && (
+                        <div className="absolute right-3 top-3">
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+                        </div>
+                      )}
+                      {/* Client Suggestions Dropdown */}
+                      {showClientSuggestions && clientSuggestions.length > 0 && (
+                        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                          {clientSuggestions.map((client, index) => (
+                            <div
+                              key={client.id || index}
+                              className="p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                              onClick={() => handleClientSelect(client)}
+                            >
+                              <div className="font-medium text-gray-900">{client.name}</div>
+                              {client.phone && (
+                                <div className="text-sm text-gray-600">{client.phone}</div>
+                              )}
+                              <div className="text-xs text-blue-600">
+                                {client.assignment_count || 0} assignments completed
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {/* No results message */}
+                      {showClientSuggestions && clientSuggestions.length === 0 && !searchingClients && formData.clientName.length >= 2 && (
+                        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg p-3">
+                          <div className="text-gray-500 text-sm">
+                            No existing clients found. New client will be created.
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div>
@@ -432,6 +667,7 @@ export default function AssignmentForm() {
                         label="Amount *"
                         value={formData.amount}
                         onChange={handleAmountChange}
+                        onBlur={handleAmountBlur}
                         className="focus:ring-0"
                         placeholder="150.00"
                         required
@@ -462,7 +698,7 @@ export default function AssignmentForm() {
                   </Typography>
 
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div>
+                    <div className="relative" ref={writerSuggestionsRef}>
                       <Input
                         name="writerName"
                         label="Writer Name *"
@@ -471,6 +707,35 @@ export default function AssignmentForm() {
                         className="focus:ring-0"
                         required
                       />
+                      {/* Loading indicator for writer search */}
+                      {searchingWriters && (
+                        <div className="absolute right-3 top-3">
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+                        </div>
+                      )}
+                      {/* Writer Suggestions Dropdown */}
+                      {showWriterSuggestions && writerSuggestions.length > 0 && (
+                        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                          {writerSuggestions.map((writer, index) => (
+                            <div
+                              key={writer.id || index}
+                              className="p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                              onClick={() => handleWriterSelect(writer)}
+                            >
+                              <div className="font-medium text-gray-900">{writer.name}</div>
+                              <div className="text-sm text-gray-600">{writer.email}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {/* No results message */}
+                      {showWriterSuggestions && writerSuggestions.length === 0 && !searchingWriters && formData.writerName.length >= 2 && (
+                        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg p-3">
+                          <div className="text-gray-500 text-sm">
+                            No existing writers found. New writer will be created.
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div>

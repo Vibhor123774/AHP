@@ -25,18 +25,25 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Search query must be at least 2 characters' });
     }
 
-    // Search writers by name or email
+    console.log('Searching writers with query:', q);
+
+    // Search writers by name or email with case-insensitive matching
     const { data: writers, error } = await supabaseServer
       .from('writers')
-      .select('id, name, email')
+      .select('id, name, email, created_at')
       .or(`name.ilike.%${q}%,email.ilike.%${q}%`)
       .order('name')
       .limit(10);
 
     if (error) {
       console.error('Writer search error:', error);
-      throw error;
+      return res.status(500).json({ 
+        message: 'Database error while searching writers',
+        error: error.message 
+      });
     }
+
+    console.log('Found writers:', writers?.length || 0);
 
     res.status(200).json({
       writers: writers || []
